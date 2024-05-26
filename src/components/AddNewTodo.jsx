@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function AddNewTodo() {
+function AddNewTodo({ setTodos }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -9,6 +9,7 @@ function AddNewTodo() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!title || !description) return null;
     const newTodo = {
       title,
       description,
@@ -16,7 +17,8 @@ function AddNewTodo() {
       completed: false,
       createdAt: new Date().toISOString(),
     };
-    console.log(newTodo);
+
+    setTodos((prevTodos) => [...prevTodos, newTodo]);
     setTitle("");
     setDescription("");
   };
@@ -27,7 +29,7 @@ function AddNewTodo() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="add-new flex flex-col  col-span-1 bg-red-400 p-6 gap-2 h-auto">
+      className="flex flex-col  col-span-1 p-6 gap-2 h-auto">
       <h2 className=" text-xl font-medium">Add New Todo</h2>
       <input
         value={title}
